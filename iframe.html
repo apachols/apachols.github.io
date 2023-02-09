@@ -1,0 +1,38 @@
+<html>
+    <head>
+      <script type="text/javascript">
+        const message = {
+          eventName: 'fletch-iframe-load-success',
+          eventData: [1, 2, 3, 4 , 5]
+        };
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const targetOrigin = urlParams.get('domain') || undefined;
+
+        console.log('inside iframe, sending postmessage');
+        console.log('targetOrigin', targetOrigin ?? 'none');
+
+        window.postMessage(message, targetOrigin);
+      </script>
+      <style>
+        body {
+          margin: 30px 5%;
+          background-color: #222;
+          color:  #d2d7d3;
+          font-size: xx-large;
+        }
+        .heading {
+          color: #db0a5b;
+          text-align: center;
+        }
+        .subheading {
+          color: #3477db;
+          text-align: center;
+        }
+      </style>
+    </head>
+    <body>
+        <h1 class="heading">iframe</h1>
+        <h4 class="subheading">test cross domain window.postMessage</h4>
+    </body>
+</html>
