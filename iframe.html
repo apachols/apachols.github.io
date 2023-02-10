@@ -9,10 +9,12 @@
 
         const targetOrigin = urlParams.get('domain') || undefined;
 
-        console.log('inside iframe, sending postmessage');
-        console.log('targetOrigin', targetOrigin ?? 'none');
+        if (window.opener) {
+          console.log('inside iframe, sending postmessage');
+          console.log('targetOrigin', targetOrigin ?? 'none');
 
-        window.postMessage(message, targetOrigin);
+          window.opener.postMessage(message, targetOrigin);
+        }
       </script>
       <style>
         body {
