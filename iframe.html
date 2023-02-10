@@ -9,11 +9,14 @@
 
         const targetOrigin = urlParams.get('domain') || undefined;
 
-        if (window.opener) {
+        if (window.parent) {
           console.log('inside iframe, sending postmessage');
           console.log('targetOrigin', targetOrigin ?? 'none');
 
-          window.opener.postMessage(message, targetOrigin);
+          window.parent.postMessage(message, targetOrigin);
+        }
+        else {
+          console.log('window.parent is null');
         }
       </script>
       <style>
