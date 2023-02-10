@@ -13,16 +13,21 @@
         // TODO: Fletch will instead want to set targetOrigin to https://www.rover.com here
         const targetOrigin = urlParams.get('domain') || undefined;
 
-        if (window.parent) {
-          console.log('POSTMESSAGE', 'inside iframe, sending postmessage');
-          console.log('POSTMESSAGE', 'targetOrigin', targetOrigin ?? 'none');
+        // use setTimeout here to simulate some pageload latency for iframe JS
+        setTimeout(
+          () => {
+            if (window.parent) {
+              console.log('POSTMESSAGE', 'inside iframe, sending postmessage');
+              console.log('POSTMESSAGE', 'targetOrigin', targetOrigin ?? 'none');
 
-          // Ideally calling postMessage would only execute when the iframe has loaded successfully
-          window.parent.postMessage(message, targetOrigin);
-        }
-        else {
-          console.log('window.parent is null');
-        }
+              // Ideally calling postMessage would only execute when the iframe has loaded successfully
+              window.parent.postMessage(message, targetOrigin);
+            }
+            else {
+              console.log('POSTMESSAGE', 'window.parent is null');
+            }
+          }, 1000
+        );
       </script>
       <style>
         body {
