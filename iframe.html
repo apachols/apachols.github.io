@@ -1,17 +1,19 @@
 <html>
     <head>
       <script type="text/javascript">
-        const message = {
-          // Message should have an agreed upon identifier
-          eventName: 'fletch-iframe-load-success',
-          // Optionally, arbitrary data can be passed to the parent window
-          eventData: [1, 2, 3, 4 , 5]
-        };
-
+        // Currently we ask parent iframe to pass in its domain
+        // - Maybe Fletch will instead want to set targetOrigin to https://www.rover.com here?
+        // - Alternatively we could keep the "domain" parameter, and only send the message if it is defined
         const urlParams = new URLSearchParams(window.location.search);
-        // Currently we ask parent iframe to pass in its domain name
-        // TODO: Fletch will instead want to set targetOrigin to https://www.rover.com here
         const targetOrigin = urlParams.get('domain') || undefined;
+
+        // The message is a plain JS object that has some format agreed upon by the sender and receiver
+        const message = {
+          // E.g. message can have an agreed upon identifier
+          eventName: 'fletch-iframe-load-success',
+          // Arbitrary additional data can be passed to the parent window
+          eventData: [1, 2, 3, 4, 5]
+        };
 
         // use setTimeout here to simulate some pageload latency for iframe JS
         setTimeout(
@@ -20,7 +22,7 @@
               console.log('POSTMESSAGE', 'inside iframe, sending postmessage');
               console.log('POSTMESSAGE', 'targetOrigin', targetOrigin ?? 'none');
 
-              // Ideally calling postMessage would only execute when the iframe has loaded successfully
+              // Ideally the postMessage only executes when the iframe has loaded successfully
               window.parent.postMessage(message, targetOrigin);
             }
             else {
