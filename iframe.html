@@ -1,11 +1,10 @@
 <html>
     <head>
       <script type="text/javascript">
-        // Currently we ask parent iframe to pass in its domain
-        // - Maybe Fletch will instead want to set targetOrigin to https://www.rover.com here?
-        // - Alternatively we could keep the "domain" parameter, and only send the message if it is defined
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetOrigin = urlParams.get('domain') || undefined;
+        // In production, send messages only to Rover.com domain
+        const environmentIsProduction = false;
+        // In lower environments (like staging / sandbox), okay to send to '*'
+        const targetOrigin = environmentIsProduction ? 'https://www.rover.com' : '*'
 
         // The message is a plain JS object that has some format agreed upon by the sender and receiver
         const message = {
